@@ -1,0 +1,7 @@
+.enabler {
+    background-color: #FF435F;
+}
+
+.enabler.enabled {
+    background-color: #21F5A8;
+}
