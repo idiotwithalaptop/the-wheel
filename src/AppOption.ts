@@ -1,6 +1,8 @@
 export type AppOption = {
     value: string,
-    isEnabled: boolean
+    isEnabled: boolean,
+    bgColour: string,
+    fgColour: string
 };
 
 export class AppOptions {
@@ -37,21 +39,14 @@ export class AppOptions {
 
     addOption(value : string) : AppOptions {
         let values = this._options.slice(0);
+        let colour = this.generateRandomColourHash();
         values.push({
             value,
-            isEnabled: true
+            isEnabled: true,
+            bgColour: colour,
+            fgColour: this.getContrastColour(colour)
         });
         return new AppOptions(values);
-    }
-
-    updateOption(idx : number, newValue : string) {
-        const newOptions = this._options.map((option: AppOption, sidx: number) => {
-            if (idx === sidx) {
-                option.value = newValue;
-            }
-            return option;
-        });
-        return new AppOptions(newOptions);
     }
 
     disableOption(value : string) : AppOptions {
@@ -79,23 +74,42 @@ export class AppOptions {
         return counter;
     }
 
-    enableOption(value : string) : AppOptions {
-        const options = this._options.map(option => {
-            if(option.value === value) {
-                option.isEnabled = true;
-            }
-            return option;
-        });
-        return new AppOptions(options);
-    }
-
-    getEnabledOptions() : string[] {
+    getEnabledOptions() : AppOption[] {
         return this._options
-            .filter(option => option.isEnabled)
-            .map(option => option.value);
+            .filter(option => option.isEnabled);
     }
 
     getAll() : AppOption[] {
         return this._options;
     }
+
+    private generateRandomColourHash() : string {
+        return "#" + Math.floor(Math.random()*16777215).toString(16);
+    }
+
+    private getContrastColour(hexcolor : string) : string {
+        // If a leading # is provided, remove it
+        if (hexcolor.slice(0, 1) === '#') {
+            hexcolor = hexcolor.slice(1);
+        }
+    
+        // If a three-character hexcode, make six-character
+        if (hexcolor.length === 3) {
+            hexcolor = hexcolor.split('').map(function (hex) {
+                return hex + hex;
+            }).join('');
+        }
+    
+        // Convert to RGB value
+        var r = parseInt(hexcolor.substr(0,2),16);
+        var g = parseInt(hexcolor.substr(2,2),16);
+        var b = parseInt(hexcolor.substr(4,2),16);
+    
+        // Get YIQ ratio
+        var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    
+        // Check contrast
+        return (yiq >= 128) ? 'black' : 'white';
+    
+    };
 }

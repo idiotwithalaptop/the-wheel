@@ -1,0 +1,4 @@
+.cp_wrapper {
+    position: absolute;
+    z-index: 3;
+}

@@ -2,17 +2,17 @@ import React from 'react';
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons'
 import './Wheel.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {AppOptions} from './AppOption'
 
 type WheelProps = {
-    options: string[],
+    options: AppOptions,
     resultCallback: (result: string) => void,
     width: number,
     height: number,
     insideRadius: number,
     outsideRadius: number,
     textRadius: number,
-    spinVelocity: number,
-    colors: WheelColor[]
+    spinVelocity: number
 }
 
 type WheelState = {
@@ -46,21 +46,7 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
         insideRadius: 150,
         outsideRadius: 250,
         textRadius: 194,
-        spinVelocity: 2000,
-        colors: [
-            { bgColor: "#F80120", fgColor: "#FFF" },
-            { bgColor: "#F35B20", fgColor: "#FFF" },
-            { bgColor: "#FB9A00", fgColor: "#333" },
-            { bgColor: "#FFCC00", fgColor: "#333" },
-            { bgColor: "#FEF200", fgColor: "#333" },
-            { bgColor: "#B8D430", fgColor: "#333" },
-            { bgColor: "#3AB745", fgColor: "#FFF" },
-            { bgColor: "#029990", fgColor: "#FFF" },
-            { bgColor: "#3501CB", fgColor: "#FFF" },
-            { bgColor: "#2E2C75", fgColor: "#FFF" },
-            { bgColor: "#673A7E", fgColor: "#FFF" },
-            { bgColor: "#CC0071", fgColor: "#FFF" }
-        ]
+        spinVelocity: 2000
     };
 
     componentDidMount() {
@@ -85,15 +71,14 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
             const startAngle = this.state.startAngle;
             const height = this.props.height;
             const width = this.props.width;
-            const options = this.props.options;
+            const options = this.props.options.getEnabledOptions();
             const arc = this.calculateArc();
             ctx.clearRect(0, 0, width, height);
             
             for (let i = 0; i < options.length; i++) {
                 const option = options[i];
                 const angle = startAngle + i * arc;    
-                const color = this.getColor(i);
-                ctx.fillStyle = color.bgColor;
+                ctx.fillStyle = option.bgColour;
 
                 /* Render Segment */
                 ctx.beginPath();
@@ -103,26 +88,19 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
                 ctx.save();
                 
                 /* Render Text */
-                ctx.fillStyle = color.fgColor;
+                ctx.fillStyle = option.fgColour;
                 ctx.translate(width / 2 + Math.cos(angle + arc / 2) * textRadius,
                     height / 2 + Math.sin(angle + arc / 2) * textRadius);
                 ctx.rotate(angle + arc / 2 + Math.PI / 2);
-                this.printName(option, -ctx.measureText(option).width / 2, 0, 14, ((2 * Math.PI * textRadius) / options.length) - 10);
+                this.printName(option.value, -ctx.measureText(option.value).width / 2, 0, 14, ((2 * Math.PI * textRadius) / options.length) - 10);
                 ctx.restore();
             }
             this.drawArrow(ctx);
         });
     };
 
-    private getColor(i : number) : WheelColor {
-        if(i >= this.props.colors.length) {
-            return this.getColor(i - this.props.colors.length);
-        }
-        return this.props.colors[i];
-    }
-
     private calculateArc() : number {
-        return Math.PI / (this.props.options.length / 2);
+        return Math.PI / (this.props.options.getEnabledOptions().length / 2);
     }
 
     private drawArrow(ctx : CanvasRenderingContext2D) {
@@ -190,9 +168,9 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
                 index = Math.floor((degrees % 360) / arcd);
             }
 
-            const result = this.props.options[index];
-            this.setState({ result: result });
-            this.props.resultCallback(result);
+            const result = this.props.options.getEnabledOptions()[index];
+            this.setState({ result: result.value });
+            this.props.resultCallback(result.value);
             ctx.restore();
         });
     };
@@ -240,8 +218,8 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
                     <div>
                         <canvas ref={this.ctxRef} width={this.props.width} height={this.props.height}></canvas>
                     </div>
-                    <button className="btn" onClick={(e) => this.handleClick(e)}>
-                        <FontAwesomeIcon icon={faRedoAlt} /> Spin!
+                    <button className="btn circular hcenter" onClick={(e) => this.handleClick(e)}>
+                        <FontAwesomeIcon icon={faRedoAlt} />
                     </button>
                 </div>
     }

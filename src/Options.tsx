@@ -1,12 +1,14 @@
 import React from "react";
 import { AppOptions, AppOption } from './AppOption';
+import { Option } from "./Option";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPowerOff, faTrashAlt, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import './Options.css'
 
 type OptionsState = {
-    options: AppOptions
+    options: AppOptions,
+    hideColorPicker: boolean
 }
 
 type OptionsProps = {
@@ -18,7 +20,8 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
     constructor(props: OptionsProps) {
         super(props);
         this.state = {
-            options: props.initialOptions
+            options: props.initialOptions,
+            hideColorPicker: true
         };
     }
 
@@ -27,10 +30,7 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
     }
 
     handleOptionChange(idx: number, optionValue: string) {
-        const newOptions = this.state.options.updateOption(idx, optionValue);
-
-        this.setState({ options: newOptions });
-        this.props.resultCallback(newOptions);
+        this.props.resultCallback(this.state.options);
     };
 
     handleAddOption = () => {
@@ -57,6 +57,20 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
         this.props.resultCallback(newOptions);
     };
 
+    handleColourChange(idx: number, colourHex: string) {
+        this.setState({
+            hideColorPicker: true
+        });
+        this.props.resultCallback(this.state.options);
+    }
+
+    handleClickColour() {
+        var newHide = !this.state.hideColorPicker;
+        this.setState({
+            hideColorPicker: newHide
+        })
+    }
+
     private enableButtonClassName(option : AppOption) : string {
         let result = "btn enabler";
         if(option.isEnabled) {
@@ -67,17 +81,22 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
 
     render() {
         let optionRender = this.state.options.getAll().map((option, idx) => (
-            <div className="option input-group mb-3">
-                <input className="form-control" type="text" placeholder={`Option #${idx + 1}`} value={option.value} onChange={(e) => this.handleOptionChange(idx, e.target.value)} />
-                <div className="input-group-append">
-                    <div onClick={(e) => this.handleToggleEnabled(idx)}   className={this.enableButtonClassName(option)} title={option.isEnabled ? "enabled" : "disabled"}>
-                        <FontAwesomeIcon icon={faPowerOff} />
-                    </div>
-                    <div className="btn red" title="remove"  onClick={(e) => this.handleRemoveOption(idx)} >
-                        <FontAwesomeIcon icon={faTrashAlt}/>
-                    </div>
-                </div>
-            </div>
+            // <div className="option input-group mb-3">
+            //     <input className="form-control" type="text" placeholder={`Option #${idx + 1}`} value={option.value} onChange={(e) => this.handleOptionChange(idx, e.target.value)} />
+            //     <div className="input-group-append">
+            //         <div onClick={(e) => this.handleToggleEnabled(idx)} className={this.enableButtonClassName(option)} title={option.isEnabled ? "Enabled" : "Disabled"}>
+            //             <FontAwesomeIcon icon={faPowerOff} />
+            //         </div>
+            //         <div className="btn red" title="Remove" onClick={(e) => this.handleRemoveOption(idx)} >
+            //             <FontAwesomeIcon icon={faTrashAlt}/>
+            //         </div>
+            //         <div className="btn" title="Choose Colour" onClick={(e) => this.handleClickColour()}>
+            //             <FontAwesomeIcon icon={faPalette} />
+            //             <ColourPicker hidden={this.state.hideColorPicker} currentColor={option.bgColour} resultCallback={(result) => this.handleColourChange(idx, result)} />
+            //         </div>
+            //     </div>
+            // </div>
+            <Option removeCallback={(index) => this.handleRemoveOption(index)} idx={idx} option={option} key={idx}/>
         ))
         return <div>
             {optionRender}

@@ -65,7 +65,7 @@ export class App extends React.Component<any, AppState> {
 
   render() {
     return <div>
-      <Wheel options={this.state.options.getEnabledOptions()} resultCallback={(e) => this.onResult(e)} />
+      <Wheel options={this.state.options} resultCallback={(e) => this.onResult(e)} />
       <ReactModal isOpen={this.state.showModal} className="option-modal" closeTimeoutMS={250}>
         <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => this.onHideModal()} className="close-btn"/>
         <Options initialOptions={this.state.options} resultCallback={(e) => this.onOptionsUpdated(e)} />
