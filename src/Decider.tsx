@@ -2,7 +2,6 @@ import React from 'react';
 import ReactModal from "react-modal";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimesCircle, faEdit, faSplotch } from '@fortawesome/free-solid-svg-icons'
-import { IStateSaver } from './IStateSaver'
 import { AppOptions } from "./AppOption"
 import './App.css';
 import { Wheel } from './Wheel';
@@ -16,7 +15,7 @@ type DeciderState = {
 
 type DeciderProps = {
     options: AppOptions,
-    saver: IStateSaver
+    saveCallback: (options: AppOptions) => void
 }
 
 export class Decider extends React.Component<DeciderProps, DeciderState> {
@@ -29,15 +28,20 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
     };
   }
 
-  componentDidUpdate() {
-    const stateToSave = this.state.options;
-    this.props.saver.save({options: stateToSave});
+  private updateOptions(callback : (options : AppOptions) => AppOptions) {
+    let newOptions = callback(this.state.options);
+    this.setState({
+      options: newOptions
+    });
+    this.props.saveCallback(newOptions);
   }
 
   private onResult(result: string) {
+    this.updateOptions(options => {
+      return options.disableOption(result)
+    });
     this.setState({
-      result: result,
-      options: this.state.options.disableOption(result)
+      result: result
     });
   };
 
@@ -50,7 +54,9 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
   };
 
   private onOptionsUpdated(newOptions : AppOptions) {
-    this.setState({options: newOptions});
+    this.updateOptions(() => {
+      return newOptions;
+    });
   }
 
   private onHideResult() {

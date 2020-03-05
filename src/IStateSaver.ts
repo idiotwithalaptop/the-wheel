@@ -1,10 +1,7 @@
 import { AppOptions } from './AppOption'
-
-export type ApplicationState = {
-    options: AppOptions
-}
+import { UserState } from './UserState'
 
 export interface IStateSaver {
-    save(appState : ApplicationState) : Promise<void>;
-    load() : Promise<ApplicationState>;
+    save(appState : UserState) : Promise<void>;
+    load() : Promise<UserState>;
 }

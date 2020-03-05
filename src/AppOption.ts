@@ -17,7 +17,14 @@ export class AppOptions {
 
     static fromJSON(state : string) : AppOptions {
         const parsedValue = JSON.parse(state);
-        return new AppOptions(parsedValue.options._options);
+        return this.fromObj(parsedValue);
+    }
+
+    static fromObj(state : any) : AppOptions {
+        if(state.options !== undefined) {
+            return new AppOptions(state.options._options);
+        }
+        return this.create();
     }
 
     removeOption(index : number) : AppOptions {

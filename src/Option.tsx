@@ -15,6 +15,7 @@ type OptionsProps = {
     option: AppOption,
     idx: number,
     removeCallback: (idx : number) => void,
+    optionChangeCallback: (option: AppOption) => void,
 }
 
 export class Option extends React.Component<OptionsProps, OptionsState> {
@@ -50,6 +51,7 @@ export class Option extends React.Component<OptionsProps, OptionsState> {
         this.setState({
             option: option
         });
+        this.props.optionChangeCallback(option);
     }
 
     private getContrastColour(hexcolor : string) : string {
@@ -100,20 +102,20 @@ export class Option extends React.Component<OptionsProps, OptionsState> {
         } as CSSProperties
         return <div className="option">
                 <div className="input-group mb-3">
-                <input className="form-control" type="text" placeholder={`Option #${this.props.idx + 1}`} value={this.state.option.value} onChange={(e) => this.handleOptionChange(e.target.value)} />
-                <div className="input-group-append">
-                    <div onClick={(e) => this.handleToggleEnabled()} className={this.enableButtonClassName(this.state.option)} title={this.state.option.isEnabled ? "Enabled" : "Disabled"}>
-                        <FontAwesomeIcon icon={faPowerOff} />
-                    </div>
-                    <div className="btn red" title="Remove" onClick={(e) => this.props.removeCallback(this.props.idx)} >
-                        <FontAwesomeIcon icon={faTrashAlt}/>
-                    </div>
+                    <input className="form-control" type="text" placeholder={`Option #${this.props.idx + 1}`} value={this.state.option.value} onChange={(e) => this.handleOptionChange(e.target.value)} />
+                    <div className="input-group-append">
+                        <div onClick={(e) => this.handleToggleEnabled()} className={this.enableButtonClassName(this.state.option)} title={this.state.option.isEnabled ? "Enabled" : "Disabled"}>
+                            <FontAwesomeIcon icon={faPowerOff} />
+                        </div>
+                        <div className="btn red" title="Remove" onClick={(e) => this.props.removeCallback(this.props.idx)} >
+                            <FontAwesomeIcon icon={faTrashAlt}/>
+                        </div>
 
-                    <ColourPicker hidden={this.state.hideColorPicker} currentColor={this.state.option.bgColour} resultCallback={(result) => this.handleColourChange(this.props.idx, result)} />
-                    <div className="btn" title="Choose Colour" onClick={(e) => this.handleClickColour()} style={btnStyle}>
-                        <FontAwesomeIcon icon={faPalette} />
+                        <ColourPicker hidden={this.state.hideColorPicker} currentColor={this.state.option.bgColour} resultCallback={(result) => this.handleColourChange(this.props.idx, result)} />
+                        <div className="btn" title="Choose Colour" onClick={(e) => this.handleClickColour()} style={btnStyle}>
+                            <FontAwesomeIcon icon={faPalette} />
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
     }
