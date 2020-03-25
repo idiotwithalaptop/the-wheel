@@ -144,23 +144,6 @@
   box-shadow: none;
 }
 
-.ReactModal__Overlay {
-  opacity: 0;
-  transition: opacity 250ms ease-in-out;
-}
-
-.ReactModal__Overlay--after-open {
-  opacity: 1;
-}
-
-.ReactModal__Overlay--before-close {
-  opacity: 0;
-}
-
-.option-modal.ReactModal__Content{
-  background-color: #3A1C46;
-}
-
 ul.no-bullets li {
   list-style-type: none;
   padding-top: 0.2em;

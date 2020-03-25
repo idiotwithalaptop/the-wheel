@@ -18,9 +18,9 @@
     "@types/react-modal": "^3.10.4",
     "bootstrap": "^4.4.1",
     "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0",
     "react-color": "^2.18.0",
     "react-dom": "^16.12.0",
-    "react-modal": "^3.11.1",
     "react-scripts": "3.4.0",
     "startbootstrap-sb-admin-2": "^4.0.7",
     "typescript": "~3.7.2"

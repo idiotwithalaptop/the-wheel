@@ -53,7 +53,7 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
         let optionRender = this.state.options.getAll().map((option, idx) => (
             <Option removeCallback={(index) => this.handleRemoveOption(index)} optionChangeCallback={(changedOption) => this.handleOptionChange(idx, changedOption)} idx={idx} option={option} key={idx}/>
         ))
-        return <div>
+        return <div className="container">
             {optionRender}
             <div className="btn float-right" title="Add Option" onClick={(e) => this.handleAddOption()}>
                 <FontAwesomeIcon icon={faPlus} />

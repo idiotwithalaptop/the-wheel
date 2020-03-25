@@ -1,13 +1,11 @@
 import React from 'react';
-import ReactModal from "react-modal";
+import { Modal } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimesCircle, faEdit, faSplotch } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faSplotch } from '@fortawesome/free-solid-svg-icons'
 import { AppOptions } from "./AppOption"
 import './App.css';
 import { Wheel } from './Wheel';
 import { Options } from './Options';
-
-ReactModal.setAppElement("#root");
 
 type DeciderState = {
   options: AppOptions,
@@ -68,21 +66,27 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
 
   render() {
     return <div className="container">
-      <div className="text-center col-12"><h1>{this.props.name}</h1></div>
+      <div className="text-center col-12">
+        <h1>{this.props.name}</h1>
+      </div>
       <Wheel options={this.state.options} resultCallback={(e) => this.onResult(e)} />
-      <ReactModal isOpen={this.state.showModal} className="option-modal" closeTimeoutMS={250}>
-        <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => this.onHideModal()} className="close-btn"/>
-        <Options initialOptions={this.state.options} resultCallback={(e) => this.onOptionsUpdated(e)} />
-      </ReactModal>
+      <Modal show={this.state.showModal} onHide={() => this.onHideModal()} centered>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <Options initialOptions={this.state.options} resultCallback={(e) => this.onOptionsUpdated(e)} />
+        </Modal.Body>
+      </Modal>
       <div onClick={(e) => this.onShowModal()} className="btn edit-btn">
         <FontAwesomeIcon icon={faEdit} className="btn icon"/>
       </div>
-      <ReactModal isOpen={this.state.result !== ""} className="result-modal" closeTimeoutMS={250}>
-        <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => this.onHideResult()} className="close-btn"/>
-        <h1>
-          <FontAwesomeIcon icon={faSplotch} />{this.state.result}<FontAwesomeIcon icon={faSplotch} />
-        </h1>
-      </ReactModal>
+      <Modal show={this.state.result !== ""} onHide={() => this.onHideResult()} centered>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <h1>
+            <FontAwesomeIcon icon={faSplotch} />{this.state.result}<FontAwesomeIcon icon={faSplotch} />
+          </h1>
+        </Modal.Body>
+      </Modal>
     </div>
   }
 }

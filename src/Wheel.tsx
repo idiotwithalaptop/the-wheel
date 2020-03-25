@@ -51,7 +51,7 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
 
     componentDidMount() {
         this.doInCanvas(ctx => {
-            ctx.clearRect(0, 0, this.props.width, this.props.height);
+            ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
             ctx.strokeStyle = "black";
             ctx.font = "bold 14px Helvetica, Arial";
         });
@@ -62,6 +62,14 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
         this.draw();
     }
 
+    private getHeight() {
+        return window.screen.availHeight > this.props.height ? this.props.height : window.screen.availHeight;
+    }
+
+    private getWidth() {
+        return window.screen.availWidth > this.props.width ? this.props.width : window.screen.availWidth;
+    }
+
     draw() {
         this.doInCanvas(ctx => {
             
@@ -69,8 +77,8 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
             const outsideRadius = this.props.outsideRadius;
             const textRadius = this.props.textRadius;
             const startAngle = this.state.startAngle;
-            const height = this.props.height;
-            const width = this.props.width;
+            const height = this.getHeight();
+            const width = this.getWidth();
             const options = this.props.options.getEnabledOptions();
             const arc = this.calculateArc();
             ctx.clearRect(0, 0, width, height);
@@ -106,14 +114,16 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
     private drawArrow(ctx : CanvasRenderingContext2D) {
         ctx.fillStyle = "#333";
         ctx.beginPath();
-        ctx.moveTo(this.props.width / 2 - 4, this.props.height / 2 - (this.props.outsideRadius + 25));
-        ctx.lineTo(this.props.width / 2 + 4, this.props.height / 2 - (this.props.outsideRadius + 25));
-        ctx.lineTo(this.props.width / 2 + 4, this.props.height / 2 - (this.props.outsideRadius + 15));
-        ctx.lineTo(this.props.width / 2 + 9, this.props.height / 2 - (this.props.outsideRadius + 15));
-        ctx.lineTo(this.props.width / 2 + 0, this.props.height / 2 - (this.props.outsideRadius - 0));
-        ctx.lineTo(this.props.width / 2 - 9, this.props.height / 2 - (this.props.outsideRadius + 15));
-        ctx.lineTo(this.props.width / 2 - 4, this.props.height / 2 - (this.props.outsideRadius + 15));
-        ctx.lineTo(this.props.width / 2 - 4, this.props.height / 2 - (this.props.outsideRadius + 25));
+        const width = this.getWidth();
+        const height = this.getHeight();
+        ctx.moveTo(width / 2 - 4, height / 2 - (this.props.outsideRadius + 25));
+        ctx.lineTo(width / 2 + 4, height / 2 - (this.props.outsideRadius + 25));
+        ctx.lineTo(width / 2 + 4, height / 2 - (this.props.outsideRadius + 15));
+        ctx.lineTo(width / 2 + 9, height / 2 - (this.props.outsideRadius + 15));
+        ctx.lineTo(width / 2 + 0, height / 2 - (this.props.outsideRadius - 0));
+        ctx.lineTo(width / 2 - 9, height / 2 - (this.props.outsideRadius + 15));
+        ctx.lineTo(width / 2 - 4, height / 2 - (this.props.outsideRadius + 15));
+        ctx.lineTo(width / 2 - 4, height / 2 - (this.props.outsideRadius + 25));
         ctx.fill();
     };
 
@@ -216,7 +226,7 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
     render() {
         return  <div className="hcenter-wrapper">
                     <div>
-                        <canvas ref={this.ctxRef} width={this.props.width} height={this.props.height}></canvas>
+                        <canvas ref={this.ctxRef} width={this.getWidth()} height={this.getHeight()}></canvas>
                     </div>
                     <button className="btn circular hcenter" onClick={(e) => this.handleClick(e)}>
                         <FontAwesomeIcon icon={faRedoAlt} />
