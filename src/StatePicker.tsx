@@ -50,22 +50,27 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
         let entries = Array.from(this.props.userState.entries.keys()).map(key => {
             const entry = this.props.userState.entries.get(key);
             if (entry === undefined) {
-                return (<div key={key.toString()}></div>)
+                return (<li key={key.toString()}></li>)
             } else {
-                return (<div key={key.toString()}>
-                    <h2><button onClick={(e) => this.handleClick(entry)}>{entry.name}</button></h2>
-                </div>);
+                return (<li key={key.toString()}>
+                    <button className="btn" onClick={(e) => this.handleClick(entry)}>{entry.name}</button>
+                </li>);
             }
         });
                   
         return (
-            <div>
-                <h1>Existing Wheels</h1>
-                <div>{entries}</div>
-                <h1>New Wheel</h1>
+            <div className="container">
+                <h1>Welcome to the Wheel!!!!</h1>
+                <p>Please choose an existing wheel</p>
+                <ul className="no-bullets">{entries}</ul>
+                <p>Or, create a new wheel</p>
+                <div className="col-12 col-md-6">
                 <div className="input-group mb-3">
                     <input className="form-control" type="text" placeholder="Wheel Name" value={this.state.newOption.name} onChange={(e) => this.handleChange(e.target.value)} />
-                    <button className="btn" onClick={(e) => this.handleAdd()}>Add</button>    
+                    <div className="input-group-append">
+                        <button className="btn" onClick={(e) => this.handleAdd()}>Add</button>    
+                    </div>
+                </div>
                 </div>
             </div>
         )

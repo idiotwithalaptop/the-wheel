@@ -7,6 +7,8 @@ import './App.css';
 import { Wheel } from './Wheel';
 import { Options } from './Options';
 
+ReactModal.setAppElement("#root");
+
 type DeciderState = {
   options: AppOptions,
   showModal: boolean,
@@ -15,6 +17,7 @@ type DeciderState = {
 
 type DeciderProps = {
     options: AppOptions,
+    name: string,
     saveCallback: (options: AppOptions) => void
 }
 
@@ -64,7 +67,8 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
   }
 
   render() {
-    return <div>
+    return <div className="container">
+      <div className="text-center col-12"><h1>{this.props.name}</h1></div>
       <Wheel options={this.state.options} resultCallback={(e) => this.onResult(e)} />
       <ReactModal isOpen={this.state.showModal} className="option-modal" closeTimeoutMS={250}>
         <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => this.onHideModal()} className="close-btn"/>

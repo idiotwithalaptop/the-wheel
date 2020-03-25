@@ -55,7 +55,7 @@ export class App extends React.Component<any, AppState> {
   render() {
     const body = this.state.currentOptions === null ? 
       <StatePicker userState={this.state.userState} resultCallback={(e) => this.handleStateSelected(e)} /> :
-      <Decider options={this.state.currentOptions.options} saveCallback={(e) => this.saveOptions(e)} />;
+      <Decider options={this.state.currentOptions.options} saveCallback={(e) => this.saveOptions(e)}  name={this.state.currentOptions.name}/>;
     return <div>
       {body}
     </div>
