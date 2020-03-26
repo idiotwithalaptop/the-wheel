@@ -76,13 +76,13 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
           <Options initialOptions={this.state.options} resultCallback={(e) => this.onOptionsUpdated(e)} />
         </Modal.Body>
       </Modal>
-      <div onClick={(e) => this.onShowModal()} className="btn edit-btn">
+      <div onClick={() => this.onShowModal()} className="btn edit-btn">
         <FontAwesomeIcon icon={faEdit} className="btn icon"/>
       </div>
       <Modal show={this.state.result !== ""} onHide={() => this.onHideResult()} centered>
         <Modal.Header closeButton />
         <Modal.Body>
-          <h1>
+          <h1 className="text-center">
             <FontAwesomeIcon icon={faSplotch} />{this.state.result}<FontAwesomeIcon icon={faSplotch} />
           </h1>
         </Modal.Body>

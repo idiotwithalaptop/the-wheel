@@ -36,7 +36,7 @@ export class ColourPicker extends React.Component<ColourPickerProps, ColourPicke
           return (
             <div>
               { !this.props.hidden && ( <div className="cp_wrapper">  
-                <FontAwesomeIcon icon={faTimesCircle} onClick={(e) => this.handleClose()} className="close-btn"/>
+                <FontAwesomeIcon icon={faTimesCircle} onClick={() => this.handleClose()} className="close-btn"/>
                 <Picker 
                     color={this.state.color}
                     onChangeComplete={ this.handleColorChange }

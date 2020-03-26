@@ -1,4 +1,3 @@
-import { AppOptions } from './AppOption'
 import { UserState } from './UserState'
 
 export interface IStateSaver {

@@ -24,12 +24,12 @@ export default class LocalStateSaver implements IStateSaver {
                 resolve({entries: new Map<string, AppOptionEntry>()});
             }
             else {
-                resolve({entries: this.objToStrMap(loadedVal)});
+                resolve({entries: LocalStateSaver.objToStrMap(loadedVal)});
             }
         });
     }
 
-    private objToStrMap(obj : any) : Map<String, AppOptionEntry> {
+    private static objToStrMap(obj : any) : Map<String, AppOptionEntry> {
         let array = JSON.parse(obj);
         let mapResult = new Map<String, AppOptionEntry>();
         for (let i = 0; i < array.length; i++) {

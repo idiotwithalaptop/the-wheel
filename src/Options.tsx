@@ -1,5 +1,5 @@
 import React from "react";
-import { AppOptions, AppOption } from './AppOption';
+import { AppOptions } from './AppOption';
 import { Option } from "./Option";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -27,9 +27,9 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
 
     public static defaultProps: Partial<OptionsProps> = {
         initialOptions: AppOptions.create()
-    }
+    };
 
-    private handleOptionChange(idx: number, optionValue: AppOption) {
+    private handleOptionChange() {
         this.props.resultCallback(this.state.options);
     };
 
@@ -51,11 +51,11 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
 
     render() {
         let optionRender = this.state.options.getAll().map((option, idx) => (
-            <Option removeCallback={(index) => this.handleRemoveOption(index)} optionChangeCallback={(changedOption) => this.handleOptionChange(idx, changedOption)} idx={idx} option={option} key={idx}/>
-        ))
+            <Option removeCallback={(index) => this.handleRemoveOption(index)} optionChangeCallback={() => this.handleOptionChange()} idx={idx} option={option} key={idx}/>
+        ));
         return <div className="container">
             {optionRender}
-            <div className="btn float-right" title="Add Option" onClick={(e) => this.handleAddOption()}>
+            <div className="btn float-right" title="Add Option" onClick={() => this.handleAddOption()}>
                 <FontAwesomeIcon icon={faPlus} />
             </div>
         </div>

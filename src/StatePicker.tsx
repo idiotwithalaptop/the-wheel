@@ -27,7 +27,7 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
     }
 
     private handleAdd() {
-        this.props.userState.entries.set(this.state.newOption.name, this.state.newOption)
+        this.props.userState.entries.set(this.state.newOption.name, this.state.newOption);
         this.setState({
             newOption: {
                 name: "",
@@ -50,10 +50,10 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
         let entries = Array.from(this.props.userState.entries.keys()).map(key => {
             const entry = this.props.userState.entries.get(key);
             if (entry === undefined) {
-                return (<li key={key.toString()}></li>)
+                return (<li key={key.toString()} />)
             } else {
                 return (<li key={key.toString()}>
-                    <button className="btn" onClick={(e) => this.handleClick(entry)}>{entry.name}</button>
+                    <button className="btn" onClick={() => this.handleClick(entry)}>{entry.name}</button>
                 </li>);
             }
         });
@@ -68,7 +68,7 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
                 <div className="input-group mb-3">
                     <input className="form-control" type="text" placeholder="Wheel Name" value={this.state.newOption.name} onChange={(e) => this.handleChange(e.target.value)} />
                     <div className="input-group-append">
-                        <button className="btn" onClick={(e) => this.handleAdd()}>Add</button>    
+                        <button className="btn" onClick={() => this.handleAdd()}>Add</button>
                     </div>
                 </div>
                 </div>

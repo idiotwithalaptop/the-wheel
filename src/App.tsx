@@ -42,8 +42,8 @@ export class App extends React.Component<any, AppState> {
 
   private saveOptions(options : AppOptions ) {
     if(this.state.currentOptions !== null) {
-      var userState = this.state.userState;
-      var currentOptions = {name: this.state.currentOptions.name, options};
+      const userState = this.state.userState;
+      const currentOptions = {name: this.state.currentOptions.name, options};
       userState.entries.set(this.state.currentOptions.name, currentOptions);
       this.setState({
         userState
