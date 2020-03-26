@@ -82,9 +82,7 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
       <Modal show={this.state.result !== ""} onHide={() => this.onHideResult()} centered>
         <Modal.Header closeButton />
         <Modal.Body>
-          <h1 className="text-center">
-            <FontAwesomeIcon icon={faSplotch} />{this.state.result}<FontAwesomeIcon icon={faSplotch} />
-          </h1>
+          <h1 className="text-center">{this.state.result}</h1>
         </Modal.Body>
       </Modal>
     </div>

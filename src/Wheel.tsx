@@ -1,14 +1,13 @@
 import React from 'react';
-import { faRedoAlt, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import {faArrowDown, faRedoAlt} from '@fortawesome/free-solid-svg-icons'
 import './Wheel.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {AppOptions} from './AppOption'
 
 type WheelProps = {
     options: AppOptions,
     resultCallback: (result: string) => void,
-    width: number,
-    height: number,
+    size: number,
     spinVelocity: number
 }
 
@@ -33,14 +32,13 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
     }
 
     public static defaultProps: Partial<WheelProps> = {
-        width: 600,
-        height: 600,
+        size: 600,
         spinVelocity: 2000
     };
 
     componentDidMount() {
         this.doInCanvas(ctx => {
-            ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
+            ctx.clearRect(0, 0, this.getSize(), this.getSize());
             ctx.strokeStyle = "black";
             ctx.font = "bold 14px Helvetica, Arial";
         });
@@ -51,19 +49,15 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
         this.draw();
     }
 
-    private getHeight() {
-        return window.innerHeight > this.props.height ? this.props.height : window.innerHeight;
-    }
-
-    private getWidth() {
-        return window.innerWidth > this.props.width ? this.props.width : window.innerWidth;
+    private getSize() {
+        return Math.min(window.innerHeight, window.innerWidth, this.props.size);
     }
 
     draw() {
         this.doInCanvas(ctx => {
             const startAngle = this.state.startAngle;
-            const height = this.getHeight();
-            const width = this.getWidth();
+            const height = this.getSize();
+            const width = this.getSize();
             const insideRadius = width / 3;
             const outsideRadius = width / 2;
             const textRadius = width * ( 5 / 12 );
@@ -91,29 +85,12 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
                 this.printName(option.value, -ctx.measureText(option.value).width / 2, 0, 14, ((2 * Math.PI * textRadius) / options.length) - 10);
                 ctx.restore();
             }
-            this.drawArrow(ctx, outsideRadius);
         });
     };
 
     private calculateArc() : number {
         return Math.PI / (this.props.options.getEnabledOptions().length / 2);
     }
-
-    private drawArrow(ctx : CanvasRenderingContext2D, outsideRadius : number) {
-        ctx.fillStyle = "#333";
-        ctx.beginPath();
-        const width = this.getWidth();
-        const height = this.getHeight();
-        ctx.moveTo(width / 2 - 4, height / 2 - (outsideRadius + 25));
-        ctx.lineTo(width / 2 + 4, height / 2 - (outsideRadius + 25));
-        ctx.lineTo(width / 2 + 4, height / 2 - (outsideRadius + 15));
-        ctx.lineTo(width / 2 + 9, height / 2 - (outsideRadius + 15));
-        ctx.lineTo(width / 2, height / 2 - outsideRadius);
-        ctx.lineTo(width / 2 - 9, height / 2 - (outsideRadius + 15));
-        ctx.lineTo(width / 2 - 4, height / 2 - (outsideRadius + 15));
-        ctx.lineTo(width / 2 - 4, height / 2 - (outsideRadius + 25));
-        ctx.fill();
-    };
 
     spin(isForward: boolean) {
         this.setState({ result: ""});
@@ -216,7 +193,7 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
                 </div>
                 <div className="hcenter-wrapper">
                     <div>
-                        <canvas ref={this.ctxRef} width={this.getWidth()} height={this.getHeight()} />
+                        <canvas ref={this.ctxRef} width={this.getSize()} height={this.getSize()} />
                     </div>
                     <button className="btn circular hcenter" onClick={() => this.handleClick()}>
                         <FontAwesomeIcon icon={faRedoAlt} />
