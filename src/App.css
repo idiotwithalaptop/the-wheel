@@ -85,13 +85,14 @@
 }
 
 
-.btn {
+.btn.btn-primary {
   background-color: #21F5A8;
   color: #FFF;
   -webkit-box-shadow: 7px 6px 5px -9px rgba(133,123,133,1);
   -moz-box-shadow: 7px 6px 5px -9px rgba(133,123,133,1);
   box-shadow: 7px 6px 5px -9px rgba(133,123,133,1);
   margin: 0 auto;
+  border: none;
 }
 
 .btn.red {

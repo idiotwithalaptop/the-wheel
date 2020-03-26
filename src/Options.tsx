@@ -55,7 +55,7 @@ export class Options extends React.Component<OptionsProps, OptionsState> {
         ));
         return <div className="container">
             {optionRender}
-            <div className="btn float-right" title="Add Option" onClick={() => this.handleAddOption()}>
+            <div className="btn btn-primary float-right" title="Add Option" onClick={() => this.handleAddOption()}>
                 <FontAwesomeIcon icon={faPlus} />
             </div>
         </div>

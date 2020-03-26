@@ -18,7 +18,7 @@ export class App extends React.Component<any, AppState> {
     super(props);
     this._stateSaver = new LocalStateSaver();
     this.state = {
-      userState: {entries: new Map<String, AppOptionEntry>()},
+      userState: {entries: new Map<string, AppOptionEntry>()},
       currentOptions: null
     };
   }
@@ -34,7 +34,7 @@ export class App extends React.Component<any, AppState> {
     this._stateSaver.save(this.state.userState);
   }
 
-  private handleStateSelected(option : AppOptionEntry) {
+  private handleStateSelected(option : AppOptionEntry | null) {
     this.setState({
       currentOptions: option
     });

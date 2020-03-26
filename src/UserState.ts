@@ -6,5 +6,5 @@ export type AppOptionEntry = {
 }
 
 export type UserState = {
-    entries: Map<String, AppOptionEntry>
+    entries: Map<string, AppOptionEntry>
 }

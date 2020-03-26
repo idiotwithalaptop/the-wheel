@@ -82,7 +82,7 @@ export class Option extends React.Component<OptionsProps, OptionsState> {
                         <div onClick={() => this.handleToggleEnabled()} className={Option.enableButtonClassName(this.state.option)} title={this.state.option.isEnabled ? "Enabled" : "Disabled"}>
                             <FontAwesomeIcon icon={faPowerOff} />
                         </div>
-                        <div className="btn red" title="Remove" onClick={() => this.props.removeCallback(this.props.idx)} >
+                        <div className="btn btn-primary red" title="Remove" onClick={() => this.props.removeCallback(this.props.idx)} >
                             <FontAwesomeIcon icon={faTrashAlt}/>
                         </div>
 

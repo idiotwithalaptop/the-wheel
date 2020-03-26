@@ -1,10 +1,12 @@
 import React from "react";
 import { UserState, AppOptionEntry } from './UserState'
 import { AppOptions } from "./AppOption";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 type StatePickerProps = {
     userState: UserState,
-    resultCallback: (result: AppOptionEntry) => void,
+    resultCallback: (result: AppOptionEntry | null) => void,
 }
 
 type StatePickState = {
@@ -34,6 +36,18 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
                 options: AppOptions.create()
             }
         });
+        this.props.resultCallback(null);
+    }
+
+    private handleRemove(key : string) {
+        this.props.userState.entries.delete(key);
+        this.setState({
+            newOption: {
+                name: "",
+                options: AppOptions.create()
+            }
+        });
+        this.props.resultCallback(null);
     }
 
     private handleChange(val : string) {
@@ -53,7 +67,10 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
                 return (<li key={key.toString()} />)
             } else {
                 return (<li key={key.toString()}>
-                    <button className="btn" onClick={() => this.handleClick(entry)}>{entry.name}</button>
+                    <button className="btn btn-link" onClick={() => this.handleClick(entry)}>{entry.name}</button>
+                    <button className="btn btn-primary red" title="Remove" onClick={() => this.handleRemove(key)} >
+                        <FontAwesomeIcon icon={faTrashAlt}/>
+                    </button>
                 </li>);
             }
         });
@@ -68,7 +85,7 @@ export class StatePicker extends React.Component<StatePickerProps, StatePickStat
                 <div className="input-group mb-3">
                     <input className="form-control" type="text" placeholder="Wheel Name" value={this.state.newOption.name} onChange={(e) => this.handleChange(e.target.value)} />
                     <div className="input-group-append">
-                        <button className="btn" onClick={() => this.handleAdd()}>Add</button>
+                        <button className="btn btn-primary" onClick={() => this.handleAdd()}>Add</button>
                     </div>
                 </div>
                 </div>

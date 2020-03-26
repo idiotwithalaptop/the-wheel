@@ -195,7 +195,7 @@ export class Wheel extends React.Component<WheelProps, WheelState> {
                     <div>
                         <canvas ref={this.ctxRef} width={this.getSize()} height={this.getSize()} />
                     </div>
-                    <button className="btn circular hcenter" onClick={() => this.handleClick()}>
+                    <button className="btn btn-primary circular hcenter" onClick={() => this.handleClick()}>
                         <FontAwesomeIcon icon={faRedoAlt} />
                     </button>
                 </div>

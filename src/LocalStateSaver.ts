@@ -29,9 +29,9 @@ export default class LocalStateSaver implements IStateSaver {
         });
     }
 
-    private static objToStrMap(obj : any) : Map<String, AppOptionEntry> {
+    private static objToStrMap(obj : any) : Map<string, AppOptionEntry> {
         let array = JSON.parse(obj);
-        let mapResult = new Map<String, AppOptionEntry>();
+        let mapResult = new Map<string, AppOptionEntry>();
         for (let i = 0; i < array.length; i++) {
             let entry = array[i];
             mapResult.set(entry[0], {name: entry[1].name, options: AppOptions.fromObj(entry[1])});

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faSplotch } from '@fortawesome/free-solid-svg-icons'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { AppOptions } from "./AppOption"
 import './App.css';
 import { Wheel } from './Wheel';
@@ -76,8 +76,8 @@ export class Decider extends React.Component<DeciderProps, DeciderState> {
           <Options initialOptions={this.state.options} resultCallback={(e) => this.onOptionsUpdated(e)} />
         </Modal.Body>
       </Modal>
-      <div onClick={() => this.onShowModal()} className="btn edit-btn">
-        <FontAwesomeIcon icon={faEdit} className="btn icon"/>
+      <div onClick={() => this.onShowModal()} className="btn btn-primary edit-btn">
+        <FontAwesomeIcon icon={faEdit} className="btn btn-primary icon"/>
       </div>
       <Modal show={this.state.result !== ""} onHide={() => this.onHideResult()} centered>
         <Modal.Header closeButton />
